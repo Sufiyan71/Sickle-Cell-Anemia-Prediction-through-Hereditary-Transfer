@@ -1,6 +1,3 @@
-Here's an updated README that reflects the use of **Streamlit** instead of React for the web application:
-
----
 
 # Sickle Cell Detection Using InceptionV3
 

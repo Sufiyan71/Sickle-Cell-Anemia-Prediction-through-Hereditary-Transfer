@@ -8,3 +8,5 @@ Pillow>=8.0
 matplotlib>=3.3
 seaborn>=0.11
 opencv-python-headless>=4.5
+streamlit-option-menu==0.4.0
+

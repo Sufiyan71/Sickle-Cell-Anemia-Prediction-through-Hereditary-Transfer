@@ -1,71 +1,64 @@
 import streamlit as st
+from streamlit_option_menu import option_menu
 
-# Define the pages for your multipage app
-PAGES = {
-    "Sickle Cell Detection": "app1.py",
-    "Severity Check": "app2.py"
-}
+# Set the page title and layout
+st.set_page_config(page_title="Sickle Cell Analysis", layout="wide")
 
-# Apply custom CSS for sidebar styling
-st.markdown(
-    """
-    <style>
-        /* Sidebar styling */
-        .css-1d391kg {
-            background-color: #2C3E50;
-            color: white;
-        }
-        .css-10trblm {
-            color: white;
-        }
-        .sidebar .sidebar-content {
-            background-color: #2C3E50;
-            padding: 10px;
-        }
-        .sidebar h2 {
-            color: #FFFFFF;
-        }
-        .sidebar .sidebar-item {
-            padding: 5px;
-        }
-        /* Active page highlight */
-        .css-1dp5vir:hover {
-            background-color: #34495E;
-            border-radius: 5px;
-            color: #FFFFFF;
-        }
-        .css-1dp5vir {
-            color: #FFFFFF;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Sidebar for navigation with title and description
+# Sidebar title and info
 st.sidebar.title("Sickle Cell Analysis")
 st.sidebar.info(
     "Navigate through the application to detect sickle cell disease or check its severity. Use the menu below."
 )
 
-# Initialize session state keys if not already set
-if "redirect_to_app11" not in st.session_state:
-    st.session_state["redirect_to_app11"] = False
+# Create a sidebar navigation menu
+with st.sidebar:
+    selected = option_menu(
+        menu_title="Main Menu",  # Title of the navigation bar
+        options=["Home", "Sickle Cell Detection", "Severity Check"],  # Options
+        icons=["house", "activity", "bar-chart"],  # Corresponding icons
+        menu_icon="cast",  # Icon for the menu title
+        default_index=0,  # Default selected option
+        styles = {
+    "container": {"padding": "5px", "background-color": "#1F1F1F"},  # Dark background for the menu
+    "icon": {"color": "white", "font-size": "25px"},  # White icons for better contrast
+    "nav-link": {
+        "font-size": "16px",
+        "text-align": "left",
+        "margin": "0px",
+        "--hover-color": "#444",  # Darker shade on hover
+        "border-radius": "8px",  # Rounded edges for links
+        "box-shadow": "2px 2px 5px rgba(0, 0, 0, 0.5)",  # Shadow effect
+    },
+    "nav-link-selected": {
+        # Dark shade for the selected button
+        "color": "white",
+        "box-shadow": "4px 4px 8px rgba(0, 0, 0, 0.8)",  # Intense shadow for active button
+        "border-radius": "8px",  # Keep rounded edges
+    },
+}
 
-# Sidebar for selecting a page
-selection = st.sidebar.radio("Choose a Page", list(PAGES.keys()))
+    )
 
-# Function to load selected app
-def load_app(page_name):
+# Navigation logic
+if selected == "Home":
+    st.title("Title")
+    st.write("# Integrating Deep Learning and Chromatographic Data to detect and predict hereditary Transfer of Sickle Cell Anemia")
+    st.title("Problem Statement")
+    st.write("### The innovation addresses the limited availability of accurate, accessible diagnostic tools for sickle cell anemia. Traditional methods like electrophoresis and blood smear analysis require expertise and resources that may be unavailable in low-resource regions. By incorporating deep learning models such as ResNet50, Mobile-Net, and InceptionV3, this solution enables efficient, high-accuracy detection from blood samples, potentially reducing the healthcare burden and enhancing patient care outcomes.")
     try:
-        exec(open(PAGES[page_name]).read())
+        exec(open("app3.py").read())
     except FileNotFoundError:
-        st.error(f"The page '{page_name}' could not be loaded.")
+        st.error("Error: app3.py not found.")
+elif selected == "Sickle Cell Detection":
+    # Redirect to app1.py
+    try:
+        exec(open("app1.py").read())
+    except FileNotFoundError:
+        st.error("Error: app1.py not found.")
 
-# Automatically redirect to 'Severity Check' if session state is set
-if st.session_state["redirect_to_app11"]:
-    st.session_state["redirect_to_app11"] = False  # Reset the flag after redirection
-    load_app("Severity Check")
-else:
-    # Load the selected app
-    load_app(selection)
+elif selected == "Severity Check":
+    # Redirect to app2.py
+    try:
+        exec(open("app2.py").read())
+    except FileNotFoundError:
+        st.error("Error: app2.py not found.")
